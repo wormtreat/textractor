@@ -1,0 +1,5 @@
+bjoern==3.0.1
+ujson==1.35
+falcon==2.0.0
+falcon-multipart==0.2.0
+PyPDF2==1.26.0
