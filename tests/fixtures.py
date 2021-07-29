@@ -2,7 +2,7 @@
 
 Test fixtures
 """
-from ..textractor import Textractor
+from ..src.textractor import create_app
 import pytest
 import os
 from falcon import testing
@@ -10,7 +10,7 @@ from falcon import testing
 
 @pytest.fixture()
 def client():
-    return testing.TestClient(Textractor.create_app())
+    return testing.TestClient(create_app())
 
 
 @pytest.fixture()

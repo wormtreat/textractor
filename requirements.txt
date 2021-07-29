@@ -3,3 +3,5 @@ ujson==1.35
 falcon==2.0.0
 falcon-multipart==0.2.0
 PyPDF2==1.26.0
+pytest==6.2.4
+pylint==2.9.6

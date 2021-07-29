@@ -2,7 +2,7 @@ FROM ubuntu:latest
 
 LABEL name="textractor"
 LABEL version="1.1" maintainer="Evan Oliver <evan@verdant.ai>"
-LABEL description="E9000 Textractor."
+LABEL description="Text Extractor Service"
 ARG BUILD_DATE
 LABEL org.label-schema.build-date=$BUILD_DATE
 
@@ -15,11 +15,9 @@ ENV LANG en_US.utf8
 
 WORKDIR /usr/src/app
 
-COPY requirements.txt ./
+COPY . .
 
 RUN pip3 install --no-cache-dir -r requirements.txt
-
-COPY app.py .
 
 EXPOSE 8060
 

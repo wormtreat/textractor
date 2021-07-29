@@ -1,0 +1,12 @@
+version: '3.6'
+
+services:
+  textractor:
+    build:
+      context: .
+    image: textractor/app
+    container_name: textractor
+    ports:
+      -  8060:8060
+    volumes:
+      - .:/usr/src/app

@@ -6,9 +6,7 @@ Resource classes
 import falcon
 import ujson
 
-from models.text_extractor import TextExtractor
-from models.health_check import HealthCheck
-
+from .text_extractor import TextExtractor
 
 class TextExtractorResource(TextExtractor):
     """Resource to extract text from POSTed file and return text in JSON.
@@ -33,24 +31,13 @@ class TextExtractorResource(TextExtractor):
             try:
                 # Extract text
                 self.extracted_text = self.extract_text(file_in)
-                resp.body = ujson.dumps(
-                    {'extracted_text': '{}'.format(self.extracted_text)})
+                resp.media = {'extracted_text': '{}'.format(self.extracted_text)}
                 resp.status = falcon.HTTP_200
             except Exception as err:
-                print("ERROR: ", repr(err))
+                print("ERROR: ", repr(err), flush=True)
                 resp.body = ujson.dumps(
                     {'error': 'An internal server error has occurred'})
                 resp.status = falcon.HTTP_500
         else:
             resp.body = ujson.dumps({'error': 'No JSON was received.'})
             resp.status = falcon.HTTP_400
-
-
-class HealthCheckResource(HealthCheck):
-    """Resource to extract text from POSTed file and return text in JSON.
-    """
-
-    def on_get(self, _, resp):
-        """Dump body."""
-        resp.body = ujson.dumps(self.body)
-        resp.status = falcon.HTTP_200

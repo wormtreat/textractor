@@ -6,7 +6,7 @@ Pytest tests
 from falcon import falcon
 import cgi
 
-from ..models.text_extractor import TextExtractor
+from ..src.text_extractor.text_extractor import TextExtractor
 from .fixtures import client, text_file
 from .utils import create_multipart
 

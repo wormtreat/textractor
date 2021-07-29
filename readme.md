@@ -16,12 +16,35 @@ response = requests.post('http://localhost:8060/upload', files={"ingest": (filen
 ```
 ... so, like that.
 
+## Using Virtual Environment
+```
+python3 -m venv venv
+. venv/bin/activate
+pip3 install -r requirements.txt
+python3 app.py
+```
 ## Using Docker
 
 ```
-docker build --no-cache --build-arg BUILD_DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ') -t textractor:latest .
+docker build --no-cache --build-arg BUILD_DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ') -t textractor/app:latest .
 ```
 
 ```
 docker run -p 8060:8060 textractor
+```
+## Using Docker Compose
+```
+docker-compose up
+docker-compose down
+```
+
+## Testing and Linting
+
+### Test:
+```
+docker run -p 8060:8060 textractor/app pytest tests/*.py
+```
+### Lint:
+```
+docker run -p 8060:8060 textractor/app pylint *.py
 ```
