@@ -57,3 +57,5 @@ dash
 
 .vscode
 
+# Virtual env
+venv
