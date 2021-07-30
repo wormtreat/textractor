@@ -4,9 +4,9 @@ Resource classes
 """
 
 import falcon
-import ujson
 
 from .text_extractor import TextExtractor
+
 
 class TextExtractorResource(TextExtractor):
     """Resource to extract text from POSTed file and return text in JSON.
@@ -25,19 +25,19 @@ class TextExtractorResource(TextExtractor):
             if len(validation_errors) > 0:
                 for error in validation_errors:
                     error_message += " - " + error
-                resp.body = ujson.dumps({'error': error_message})
+                resp.media = {'error': error_message}
                 resp.status = falcon.HTTP_400
                 return
             try:
                 # Extract text
                 self.extracted_text = self.extract_text(file_in)
-                resp.media = {'extracted_text': '{}'.format(self.extracted_text)}
+                resp.media = {'extracted_text': '{}'.format(
+                    self.extracted_text)}
                 resp.status = falcon.HTTP_200
             except Exception as err:
                 print("ERROR: ", repr(err), flush=True)
-                resp.body = ujson.dumps(
-                    {'error': 'An internal server error has occurred'})
+                resp.media = {'error': 'An internal server error has occurred'}
                 resp.status = falcon.HTTP_500
         else:
-            resp.body = ujson.dumps({'error': 'No JSON was received.'})
+            resp.media = {'error': 'No JSON was received.'}
             resp.status = falcon.HTTP_400
