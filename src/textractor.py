@@ -7,8 +7,8 @@ saving anything to disk.
 
 import falcon
 from falcon_multipart.middleware import MultipartMiddleware
-from .text_extractor.resources import TextExtractorResource
-from .health_check.resources import HealthCheckResource
+from .text_extractor import TextExtractorResource
+from .health_check import HealthCheckResource
 
 def create_app():
     """Instantiate app and define routes."""

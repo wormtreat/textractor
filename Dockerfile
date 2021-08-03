@@ -21,4 +21,5 @@ RUN pip3 install --no-cache-dir -r requirements.txt
 
 EXPOSE 8060
 
+ENTRYPOINT ["sh", "docker-entrypoint.sh"]
 CMD [ "python3", "./app.py" ]

@@ -24,26 +24,26 @@ def test_allowed_file():
     assert textractor.allowed_file("jpg") == False
 
 
-def test_validate_upload(text_file):
+def test_validate_filename(text_file):
     """Test validating uploaded file."""
     textractor = TextExtractor()
+    textractor.uploaded_file = cgi.FieldStorage()
+    textractor.uploaded_file.filename = text_file['file']
 
-    data = cgi.FieldStorage()
-    data.filename = text_file['file']
-    assert textractor.validate_upload(data) == []
+    assert textractor.validate_filename() == []
 
 
 def test_extract_text(text_file):
     """Test extracting text from file."""
     textractor = TextExtractor()
-
-    data = cgi.FieldStorage()
-    data.filename = text_file['file']
+    textractor.uploaded_file = cgi.FieldStorage()
+    textractor.uploaded_file.filename = text_file['file']
 
     filepath = text_file['path']
+    
     with open(filepath, 'rb') as f:
-        data.file = f
-        assert textractor.extract_text(data) == 'Hi, this is test text.'
+        textractor.uploaded_file.file = f
+        assert textractor.extract_text() == 'Hi, this is test text.'
 
 # --- --- ---
 # Endpoint Tests

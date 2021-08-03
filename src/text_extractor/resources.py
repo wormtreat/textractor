@@ -12,16 +12,14 @@ class TextExtractorResource(TextExtractor):
     """Resource to extract text from POSTed file and return text in JSON.
     """
 
-    def __init__(self):
-        self.extracted_text = ""
-
     def on_post(self, req, resp):
         """Accept file from POST request and return text in JSON."""
         if req.content_length:
             error_message = "Error"
-            file_in = req.get_param('ingest')
+            # Set input file
+            self.set_uploaded_file(req.get_param('ingest')) 
             # Validate data
-            validation_errors = self.validate_upload(file_in)
+            validation_errors = self.validate_filename()
             if len(validation_errors) > 0:
                 for error in validation_errors:
                     error_message += " - " + error
@@ -30,7 +28,7 @@ class TextExtractorResource(TextExtractor):
                 return
             try:
                 # Extract text
-                self.extracted_text = self.extract_text(file_in)
+                self.extracted_text = self.extract_text()
                 resp.media = {'extracted_text': '{}'.format(
                     self.extracted_text)}
                 resp.status = falcon.HTTP_200

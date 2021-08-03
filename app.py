@@ -10,6 +10,6 @@ from src.textractor import create_app
 WEB_HOST = '0.0.0.0'
 PORT = 8060
 
-app = create_app()
-
-bjoern.run(app, WEB_HOST, PORT)
+if __name__ == "__main__":
+    app = create_app()
+    bjoern.run(app, WEB_HOST, PORT)
