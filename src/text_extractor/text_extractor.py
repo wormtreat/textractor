@@ -48,9 +48,9 @@ class TextExtractor():
 
     def process_zip(self):
         """Extract text from zip file."""
+        text_out = ""
         file_bytes = self.get_file_bytes()
         with zipfile.ZipFile(file_bytes, "r") as zip_file:
-            text_out = ""
             files = zip_file.namelist()
             for filename in files:
                 with zip_file.open(filename) as zipped_file:
@@ -71,9 +71,9 @@ class TextExtractor():
 
     def process_pdf(self):
         """Extract text from pdf file."""
+        text_out = ""
         file_bytes = self.get_file_bytes()
         pdf_reader = PyPDF2.PdfFileReader(file_bytes)
-        text_out = ""
         for page_number in range(0, pdf_reader.numPages):
             page = pdf_reader.getPage(page_number)
             page_text = page.extractText()
