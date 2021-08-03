@@ -3,11 +3,11 @@
 Pytest tests
 """
 
-from falcon import falcon
 import cgi
+from falcon import falcon
 
 from ..src.text_extractor.text_extractor import TextExtractor
-from .fixtures import client, text_file, zip_file
+from .fixtures import client, text_file, zip_file, pdf_file, nested_zip_file
 from .utils import create_multipart
 
 # --- --- ---
@@ -34,7 +34,7 @@ def test_validate_filename(text_file):
 
 
 def test_extract_text(text_file):
-    """Test extracting text from file."""
+    """Test extracting text from text file."""
     textractor = TextExtractor()
     textractor.uploaded_file = cgi.FieldStorage()
     textractor.uploaded_file.filename = text_file['file']
@@ -46,13 +46,39 @@ def test_extract_text(text_file):
         assert textractor.extract_text() == 'Hi, this is test text.'
 
 
+def test_extract_text_from_pdf(pdf_file):
+    """Test extracting text from pdf file."""
+    textractor = TextExtractor()
+    textractor.uploaded_file = cgi.FieldStorage()
+    textractor.uploaded_file.filename = pdf_file['file']
+
+    filepath = pdf_file['path']
+
+    with open(filepath, 'rb') as f:
+        textractor.uploaded_file.file = f
+        assert textractor.extract_text() == 'Hi, this is test text.'
+
+
 def test_extract_text_from_zip(zip_file):
-    """Test extracting text from file."""
+    """Test extracting text from zip file."""
     textractor = TextExtractor()
     textractor.uploaded_file = cgi.FieldStorage()
     textractor.uploaded_file.filename = zip_file['file']
 
     filepath = zip_file['path']
+
+    with open(filepath, 'rb') as f:
+        textractor.uploaded_file.file = f
+        assert textractor.extract_text() == 'Hi, this is test text.'
+
+
+def test_extract_text_from_nested_zip(nested_zip_file):
+    """Test extracting text from text file in a zip, within a zip."""
+    textractor = TextExtractor()
+    textractor.uploaded_file = cgi.FieldStorage()
+    textractor.uploaded_file.filename = nested_zip_file['file']
+
+    filepath = nested_zip_file['path']
 
     with open(filepath, 'rb') as f:
         textractor.uploaded_file.file = f

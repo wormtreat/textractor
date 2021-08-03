@@ -3,7 +3,7 @@
 
 This is a simple, mostly useless, Falcon microservice which accepts various file types and returns any text it's found in one big chunk.
 
-It currently accepts txt, pdf and zip files. Zip file inception is not a thing. Excluded file types found in zip files are disregarded.
+It currently accepts txt, pdf and zip files. Zip file inception is a thing. Excluded file types found in zip files are disregarded.
 
 ## Usage
 
@@ -45,5 +45,5 @@ docker run -p 8060:8060 textractor/app pytest tests/*.py
 ```
 ### Lint:
 ```
-docker run -p 8060:8060 textractor/app pylint *.py
+docker run -p 8060:8060 textractor/app pylint src/*
 ```

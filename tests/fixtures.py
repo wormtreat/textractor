@@ -20,6 +20,14 @@ def text_file():
 def zip_file():
     return get_file_info('test_text.zip')
 
+@pytest.fixture()
+def nested_zip_file():
+    return get_file_info('test_text_nested.zip')
+
+@pytest.fixture()
+def pdf_file():
+    return get_file_info('test_text.pdf')
+
 def get_file_info(test_file):
     test_folder = 'test_data/'
     test_path = test_folder + test_file

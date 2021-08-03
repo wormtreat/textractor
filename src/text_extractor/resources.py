@@ -17,7 +17,7 @@ class TextExtractorResource(TextExtractor):
         if req.content_length:
             error_message = "Error"
             # Set input file
-            self.set_uploaded_file(req.get_param('ingest')) 
+            self.set_uploaded_file(req.get_param('ingest'))
             # Validate data
             validation_errors = self.validate_filename()
             if len(validation_errors) > 0:
