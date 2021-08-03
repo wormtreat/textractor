@@ -12,22 +12,27 @@ from falcon import testing
 def client():
     return testing.TestClient(create_app())
 
-
 @pytest.fixture()
 def text_file():
+    return get_file_info('test_text.txt')
+
+@pytest.fixture()
+def zip_file():
+    return get_file_info('test_text.zip')
+
+def get_file_info(test_file):
     test_folder = 'test_data/'
-    test_file = 'test_text.txt'
     test_path = test_folder + test_file
     here = os.path.dirname(os.path.realpath(__file__))
     filepath = os.path.join(here, test_path)
 
     with open(filepath, 'rb') as f:
-        test_text = f.read()
+        file_text = f.read()
 
-    test_text = {
+    file_info = {
         'folder': test_folder,
         'file': test_file,
         'path': filepath,
-        'data': test_text
+        'data': file_text
     }
-    return test_text
+    return file_info

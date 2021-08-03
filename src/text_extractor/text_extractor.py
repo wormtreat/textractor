@@ -16,6 +16,7 @@ class TextExtractor(object):
     uploaded_file = None
 
     def set_uploaded_file(self, uploaded_file):
+        """Set file to ingest."""
         self.uploaded_file = uploaded_file
 
     def validate_filename(self):
@@ -51,10 +52,11 @@ class TextExtractor(object):
         zip_file = zipfile.ZipFile(file_bytes, "r")
         files = zip_file.namelist()
         for filename in files:
-            with zip_file.open(filename) as zippedFile:
-                extension = self.get_file_extension(zippedFile.name)
-                if self.allowed_file(extension):
-                    self.extracted_text += self.extract_text(zippedFile)
+            with zip_file.open(filename) as zipped_file:
+                extension = self.get_file_extension(zipped_file.name)
+                if self.allowed_file(extension) and extension != "zip":
+                    self.uploaded_file = zipped_file
+                    self.extracted_text += self.extract_text()
         return self.extracted_text
 
     def process_txt(self):
@@ -68,9 +70,9 @@ class TextExtractor(object):
     def process_pdf(self):
         """Extract text from pdf file."""
         file_bytes = self.get_file_bytes()
-        pdfReader = PyPDF2.PdfFileReader(file_bytes)
-        for pageNumber in range(1, pdfReader.numPages):
-            page = pdfReader.getPage(pageNumber)
+        pdf_reader = PyPDF2.PdfFileReader(file_bytes)
+        for page_number in range(1, pdf_reader.numPages):
+            page = pdf_reader.getPage(page_number)
             page_text = page.extractText()
             clean_string = (page_text.encode('ascii', 'ignore')
                             ).decode("unicode_escape")

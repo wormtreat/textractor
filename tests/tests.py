@@ -7,7 +7,7 @@ from falcon import falcon
 import cgi
 
 from ..src.text_extractor.text_extractor import TextExtractor
-from .fixtures import client, text_file
+from .fixtures import client, text_file, zip_file
 from .utils import create_multipart
 
 # --- --- ---
@@ -40,7 +40,20 @@ def test_extract_text(text_file):
     textractor.uploaded_file.filename = text_file['file']
 
     filepath = text_file['path']
-    
+
+    with open(filepath, 'rb') as f:
+        textractor.uploaded_file.file = f
+        assert textractor.extract_text() == 'Hi, this is test text.'
+
+
+def test_extract_text_from_zip(zip_file):
+    """Test extracting text from file."""
+    textractor = TextExtractor()
+    textractor.uploaded_file = cgi.FieldStorage()
+    textractor.uploaded_file.filename = zip_file['file']
+
+    filepath = zip_file['path']
+
     with open(filepath, 'rb') as f:
         textractor.uploaded_file.file = f
         assert textractor.extract_text() == 'Hi, this is test text.'
