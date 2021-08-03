@@ -1,7 +1,7 @@
 
 # Textractor
 
-This service accepts various file types and returns any text it's found in one big chunk.
+This is a simple Falcon microservice which accepts various file types and returns any text it's found in one big chunk.
 
 It currently accepts txt, pdf and zip files. Zip file inception is a thing. Zips can include any combination of the three.
 Excluded file types found in zip files are disregarded.
@@ -30,7 +30,7 @@ docker build --no-cache --build-arg BUILD_DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ') 
 ```
 
 ```
-docker run -p 8060:8060 textractor
+docker run -p 8060:8060 textractor/app
 ```
 ## Using Docker Compose
 ```
