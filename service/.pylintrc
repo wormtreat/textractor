@@ -1,0 +1,8 @@
+[MASTER]
+
+init-hook='import sys; sys.path.append("./"); sys.path.append("./src")'
+
+
+[EXCEPTIONS]
+
+overgeneral-exceptions=BaseException

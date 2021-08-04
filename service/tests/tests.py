@@ -7,8 +7,7 @@ import cgi
 from falcon import falcon
 
 from ..src.text_extractor.text_extractor import TextExtractor
-from .fixtures import client, text_file, zip_file, pdf_file, nested_zip_file
-from .utils import create_multipart
+from ..tests.utils import create_multipart
 
 # --- --- ---
 # Unit Tests
@@ -18,10 +17,10 @@ from .utils import create_multipart
 def test_allowed_file():
     """Test allowed file extensions."""
     textractor = TextExtractor()
-    assert textractor.allowed_file("zip") == True
-    assert textractor.allowed_file("txt") == True
-    assert textractor.allowed_file("pdf") == True
-    assert textractor.allowed_file("jpg") == False
+    assert textractor.allowed_file("zip") is True
+    assert textractor.allowed_file("txt") is True
+    assert textractor.allowed_file("pdf") is True
+    assert textractor.allowed_file("jpg") is False
 
 
 def test_validate_filename(text_file):
@@ -41,8 +40,8 @@ def test_extract_text(text_file):
 
     filepath = text_file['path']
 
-    with open(filepath, 'rb') as f:
-        textractor.uploaded_file.file = f
+    with open(filepath, 'rb') as open_file:
+        textractor.uploaded_file.file = open_file
         assert textractor.extract_text() == 'Hi, this is test text.'
 
 
@@ -54,8 +53,8 @@ def test_extract_text_from_pdf(pdf_file):
 
     filepath = pdf_file['path']
 
-    with open(filepath, 'rb') as f:
-        textractor.uploaded_file.file = f
+    with open(filepath, 'rb') as open_file:
+        textractor.uploaded_file.file = open_file
         assert textractor.extract_text() == 'Hi, this is test text.'
 
 
@@ -67,8 +66,8 @@ def test_extract_text_from_zip(zip_file):
 
     filepath = zip_file['path']
 
-    with open(filepath, 'rb') as f:
-        textractor.uploaded_file.file = f
+    with open(filepath, 'rb') as open_file:
+        textractor.uploaded_file.file = open_file
         assert textractor.extract_text() == 'Hi, this is test text.'
 
 
@@ -80,8 +79,8 @@ def test_extract_text_from_nested_zip(nested_zip_file):
 
     filepath = nested_zip_file['path']
 
-    with open(filepath, 'rb') as f:
-        textractor.uploaded_file.file = f
+    with open(filepath, 'rb') as open_file:
+        textractor.uploaded_file.file = open_file
         assert textractor.extract_text() == 'Hi, this is test text.'
 
 # --- --- ---
@@ -104,10 +103,10 @@ def test_file_upload(client, text_file):
     """Test uploading text file."""
     # Create the multipart data
     data, headers = create_multipart(text_file['data'], fieldname='ingest',
-                                    filename=text_file['file'],
-                                    content_type='plain/text')
+                                     filename=text_file['file'],
+                                     content_type='plain/text')
     # Post to endpoint
     result = client.simulate_request(method='POST', path="/upload",
-                                    headers=headers, body=data)
+                                     headers=headers, body=data)
     assert result.status == falcon.HTTP_OK
     assert result.json['extracted_text'] == 'Hi, this is test text.'

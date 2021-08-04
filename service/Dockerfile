@@ -1,7 +1,7 @@
 FROM ubuntu:latest
 
 LABEL name="textractor"
-LABEL version="1.1" maintainer="Evan Oliver <evan@verdant.ai>"
+LABEL version="1.1" maintainer="Evan Oliver <olleit@gmail.com>"
 LABEL description="Text Extractor Service"
 ARG BUILD_DATE
 LABEL org.label-schema.build-date=$BUILD_DATE
@@ -20,6 +20,5 @@ COPY . .
 RUN pip3 install --no-cache-dir -r requirements.txt
 
 EXPOSE 8060
-
-ENTRYPOINT ["sh", "docker-entrypoint.sh"]
+ENTRYPOINT ["/bin/bash", "docker-entrypoint.sh"]
 CMD [ "python3", "./app.py" ]

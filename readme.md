@@ -15,14 +15,16 @@ response = requests.post('http://localhost:8060/upload', files={"ingest": (filen
 ```
 ... so, like that.
 
-## Using Virtual Environment
+## Running
+
+### Using Virtual Environment:
 ```
 python3 -m venv venv
 . venv/bin/activate
-pip3 install -r requirements.txt
-python3 app.py
+pip3 install -r service/requirements.txt
+python3 service/app.py
 ```
-## Using Docker
+### Using Docker:
 
 ```
 docker build --no-cache --build-arg BUILD_DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ') -t textractor/app:latest .
@@ -31,7 +33,7 @@ docker build --no-cache --build-arg BUILD_DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ') 
 ```
 docker run -p 8060:8060 textractor/app
 ```
-## Using Docker Compose
+### Using Docker Compose:
 ```
 docker-compose up
 docker-compose down
@@ -39,11 +41,34 @@ docker-compose down
 
 ## Testing and Linting
 
-### Test:
+### Running locally:
+#### Test:
 ```
-docker run -p 8060:8060 textractor/app pytest tests/*.py
+pytest service/tests/*
 ```
-### Lint:
+#### Lint:
 ```
-docker run -p 8060:8060 textractor/app pylint src/*
+pylint service
 ```
+
+### Running with Docker:
+#### Test:
+```
+docker run textractor/app ./scripts/manage.sh test
+```
+or with docker-compose:
+```
+docker-compose run textractor ./scripts/manage.sh test
+```
+
+#### Lint:
+```
+docker run textractor/app ./scripts/manage.sh lint
+```
+or with docker-compose:
+```
+docker-compose run textractor ./scripts/manage.sh lint
+```
+
+
+

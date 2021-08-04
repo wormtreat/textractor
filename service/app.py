@@ -3,7 +3,10 @@
 Bjoern runner
 """
 import bjoern
-from src.textractor import create_app
+try:
+    from .src.textractor import create_app
+except ImportError:
+    from src.textractor import create_app
 
 # Define webserver host and port
 WEB_HOST = '0.0.0.0'
